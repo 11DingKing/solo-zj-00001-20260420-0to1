@@ -130,6 +130,26 @@ function SurveyCreate() {
     return errors.length === 0;
   };
 
+  const cleanQuestions = () => {
+    return questions.map(q => {
+      const cleanedQuestion: any = {
+        type: q.type,
+        text: q.text,
+        is_required: q.is_required,
+        order: q.order,
+      };
+      
+      if (q.options && q.options.length > 0) {
+        cleanedQuestion.options = q.options.map(o => ({
+          text: o.text,
+          order: o.order,
+        }));
+      }
+      
+      return cleanedQuestion;
+    });
+  };
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
@@ -142,7 +162,7 @@ function SurveyCreate() {
         description: description || undefined,
         deadline: deadline ? new Date(deadline).toISOString() : undefined,
         max_submissions: maxSubmissions ? parseInt(maxSubmissions) : undefined,
-        questions,
+        questions: cleanQuestions(),
       };
 
       if (isEdit && id) {

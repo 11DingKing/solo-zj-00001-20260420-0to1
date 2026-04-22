@@ -26,7 +26,7 @@ class Question(Base):
     type = Column(String(50), nullable=False)
     text = Column(Text, nullable=False)
     is_required = Column(Boolean, default=False)
-    order = Column(Integer, nullable=False)
+    order = Column("order", Integer, nullable=False, quote=True)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
     
     survey = relationship("Survey", back_populates="questions")
@@ -39,7 +39,7 @@ class Option(Base):
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     question_id = Column(String, ForeignKey("questions.id", ondelete="CASCADE"))
     text = Column(Text, nullable=False)
-    order = Column(Integer, nullable=False)
+    order = Column("order", Integer, nullable=False, quote=True)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
     
     question = relationship("Question", back_populates="options")

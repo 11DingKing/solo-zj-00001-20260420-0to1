@@ -52,12 +52,11 @@ class SurveyCreate(BaseModel):
     max_submissions: Optional[int] = Field(None, ge=1)
     questions: List[QuestionCreate] = Field(..., min_length=1)
     
-    @field_validator('questions')
-    @classmethod
-    def validate_questions(cls, v):
-        if len(v) < 1:
+    @model_validator(mode='after')
+    def validate_questions(self) -> 'SurveyCreate':
+        if not self.questions or len(self.questions) < 1:
             raise ValueError('问卷至少需要1道题')
-        return v
+        return self
 
 class SurveyUpdate(BaseModel):
     title: Optional[str] = Field(None, min_length=1, max_length=255)
