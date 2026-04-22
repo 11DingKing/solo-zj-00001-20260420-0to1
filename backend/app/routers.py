@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from sqlalchemy import func, select
-from typing import List, Optional
+from sqlalchemy import func
+from typing import List
 from datetime import datetime
 from app.database import get_db
 from app.models import Survey, Question, Option, Submission, Answer, AnswerOptions

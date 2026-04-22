@@ -1,5 +1,6 @@
+from __future__ import annotations
 from pydantic import BaseModel, Field, model_validator
-from typing import List, Optional, Union, Any
+from typing import List, Optional, Union
 from datetime import datetime
 from enum import Enum
 
