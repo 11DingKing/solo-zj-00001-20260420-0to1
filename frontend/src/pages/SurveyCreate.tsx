@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { surveyApi } from '../services/api';
-import type { Question, Option, QuestionType } from '../types';
+import type { Question, QuestionType } from '../types';
 
 function SurveyCreate() {
   const { id } = useParams<{ id: string }>();
