@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, model_validator
 from typing import List, Optional, Union, Any
 from datetime import datetime
 from enum import Enum
@@ -27,14 +27,12 @@ class QuestionCreate(BaseModel):
     order: int = Field(..., ge=0)
     options: Optional[List[OptionCreate]] = None
     
-    @field_validator('options')
-    @classmethod
-    def validate_choice_options(cls, v, info):
-        question_type = info.data.get('type')
-        if question_type in [QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE]:
-            if not v or len(v) < 2:
+    @model_validator(mode='after')
+    def validate_choice_options(self) -> 'QuestionCreate':
+        if self.type in [QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE]:
+            if not self.options or len(self.options) < 2:
                 raise ValueError('选择题至少需要2个选项')
-        return v
+        return self
 
 class QuestionResponse(BaseModel):
     id: str
